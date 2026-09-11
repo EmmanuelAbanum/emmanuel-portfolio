@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="layout">
+
+  <!-- ============ SIDEBAR ============ -->
+  <header class="sidebar">
+    <div class="sidebar-top">
+      <a href="#overview" class="mark">EOA</a>
+      <p class="sidebar-name">{{ profile.name }}</p>
+      <p class="sidebar-role">{{ profile.role }}</p>
+    </div>
+
+    <nav class="sidebar-nav" aria-label="Primary">
+      <ul>
+        {% for link in nav_links %}
+        <li><a href="{{ link.href }}">{{ link.label }}</a></li>
+        {% endfor %}
+      </ul>
+    </nav>
+
+    <div class="sidebar-bottom">
+      <a class="sidebar-contact-link" href="mailto:{{ profile.email }}">{{ profile.email }}</a>
+      <a class="sidebar-contact-link" href="{{ profile.github }}" target="_blank" rel="noopener">{{ profile.github_handle }}</a>
+      <p class="sidebar-copy">&copy; {{ year }} {{ profile.name }}</p>
+    </div>
+  </header>
+
+  <!-- ============ MAIN ============ -->
+  <main class="main">
+
+    <!-- ---------- OVERVIEW / HERO ---------- -->
+    <section id="overview" class="section hero">
+      <p class="terminal-line">
+        <span class="terminal-prompt">$</span>
+        <span class="terminal-query" id="terminal-query" data-query="{{ profile.query }}"></span><span class="terminal-cursor">|</span>
+      </p>
+
+      <h1 class="hero-headline">
+        Building software and<br />making sense of data.
+      </h1>
+
+      <p class="hero-bio">{{ profile.bio }}</p>
+
+      <dl class="record-strip">
+        <div class="record-field">
+          <dt>role</dt>
+          <dd>Data Science &amp; Full-Stack Dev</dd>
+        </div>
+        <div class="record-field">
+          <dt>stack</dt>
+          <dd>Python · Flask · Bootstrap · MySQL</dd>
+        </div>
+        <div class="record-field">
+          <dt>status</dt>
+          <dd><span class="status-dot"></span>Open to work</dd>
+        </div>
+      </dl>
+    </section>
+
+    <!-- ---------- SKILLS ---------- -->
+    <section id="skills" class="section">
+      <h2 class="section-heading">What I bring to a project</h2>
+      <p class="section-sub">Documented the way I'd document any dataset — as a schema.</p>
+
+      <div class="schema-table" role="table" aria-label="Skills schema">
+        <div class="schema-row schema-head" role="row">
+          <span role="columnheader">field</span>
+          <span role="columnheader">type</span>
+          <span role="columnheader">description</span>
+        </div>
+        {% for skill in skills %}
+        <div class="schema-row" role="row">
+          <span class="schema-field" role="cell">{{ skill.field }}</span>
+          <span class="schema-type schema-type--{{ skill.type }}" role="cell">{{ skill.type }}</span>
+          <span class="schema-desc" role="cell">{{ skill.description }}</span>
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+
+    <!-- ---------- PROJECTS ---------- -->
+    <section id="projects" class="section">
+      <h2 class="section-heading">Selected work</h2>
+      <p class="section-sub">A few projects that show how I think and build.</p>
+
+      <div class="records">
+        {% for p in projects %}
+        <article class="record">
+          <div class="record-top">
+            <h3 class="record-title">{{ p.title }}</h3>
+            <span class="record-status">{{ p.status }}</span>
+          </div>
+          <p class="record-type">{{ p.type }}</p>
+          <p class="record-summary">{{ p.summary }}</p>
+          <ul class="record-stack">
+            {% for tech in p.stack %}
+            <li>{{ tech }}</li>
+            {% endfor %}
+          </ul>
+          {% if p.github %}
+          <a class="record-link" href="{{ p.github }}" target="_blank" rel="noopener">View repository</a>
+          {% endif %}
+        </article>
+        {% endfor %}
+      </div>
+    </section>
+
+    <!-- ---------- CONTACT ---------- -->
+    <section id="contact" class="section">
+      <h2 class="section-heading">Let's work together</h2>
+      <p class="section-sub">Send a message and I'll reply from {{ profile.email }}.</p>
+
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <div class="flash-stack">
+            {% for category, msg in messages %}
+              <div class="flash flash--{{ category }}">{{ msg }}</div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+
+      <form class="contact-form" action="{{ url_for('contact') }}" method="POST" novalidate>
+        <div class="form-row">
+          <label for="name">name</label>
+          <input type="text" id="name" name="name" placeholder="Your name" required />
+        </div>
+        <div class="form-row">
+          <label for="email">email</label>
+          <input type="email" id="email" name="email" placeholder="you@example.com" required />
+        </div>
+        <div class="form-row">
+          <label for="message">message</label>
+          <textarea id="message" name="message" rows="5" placeholder="What are you looking to build?" required></textarea>
+        </div>
+        <button type="submit" class="btn-submit">Send message</button>
+      </form>
+    </section>
+
+  </main>
+</div>
+
+{% endblock %}
