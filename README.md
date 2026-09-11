@@ -1,7 +1,7 @@
 # Abanum Emmanuel Ovie — Portfolio
 
 A personal portfolio site built with **Flask, Bootstrap, HTML, and CSS**,
-presenting Emmanuel's skills and projects as a "technical dossier" —
+presenting my skills and projects as a "technical dossier" —
 a schema table for skills, structured records for projects, and a
 working contact form backed by SQLite.
 
@@ -35,11 +35,6 @@ portfolio/
     └── js/script.js         # Hero "typing" animation
 ```
 
-## Editing your content
-
-Everything you're likely to want to change — your bio, skills, and
-projects — lives in **`data.py`**, not in the HTML. Update the
-dictionaries there and the page updates automatically.
 
 ## Switching from SQLite to MySQL
 
